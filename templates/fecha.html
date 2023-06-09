@@ -1,6 +1,15 @@
-{% extends 'menu.html' %} {% block fecha%} {% load static %}
+
+{%include 'menu.html' %} {% block fecha%} {% load static %}
 <img src="{% static 'img/gatito.png' %}" height="200" width="200" alt="" />
 <img src="{% static 'img/perrito.png' %}" height="200" width="200" alt="" />
+{% include 'fragmento_nombre.html' with persona="Juan" saludo="Hola" %}
 <h1>Hola {{name}} :</h1>
 <h1 class="text-success">La Fecha Actual es : {{ fecha }}</h1>
+<h1 class="text-danger text-center">Mis frutas</h1>
+<ul class="mx-auto">
+    {% for fruta in frutas %}
+        <li class="text-primary">{{fruta}}</li>
+    {% endfor %}
+</ul>
+
 {% endblock fecha %}
