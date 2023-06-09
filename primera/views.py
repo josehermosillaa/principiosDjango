@@ -7,6 +7,11 @@ import datetime
 
 # vista basada en clases
 
+class Persona:
+    def __init__(self, nombre, apellido):
+        self.nombre = nombre
+        self.apellido = apellido
+
 
 class IndexPageView(TemplateView):
     template_name = 'index.html'
@@ -33,3 +38,11 @@ def obtener_fecha(request, name, foto):
 def menu_view(request):
     template_name = 'menu.html'
     return render(request, template_name)
+
+def mostrar(request):
+    persona = Persona("Juan", "Perez")
+    items = ["Primero", "Segundo", "Tercero", "Cuerto"]
+    context = {"nombre": persona.nombre, "apellido": persona.apellido, "items":items}
+    
+    return render(request, 'seguro.html', context)
+    
