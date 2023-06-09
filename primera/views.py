@@ -18,14 +18,15 @@ def index(request):
     return HttpResponse("HOLA ERICH")
 
 
-def obtener_fecha(request, name):
+def obtener_fecha(request, name, foto):
     fecha_actual = datetime.datetime.now()
     # print 'fecha: {fecha_actual}' NO!
     context = {
-                'fecha': fecha_actual,
-                'name': name, 
-                'frutas': ['Manzana', 'Mango', 'Naranja'],
-                }
+        'fecha': fecha_actual,
+        'name': name,
+        'frutas': ['Manzana', 'Mango', 'Naranja'],
+        'foto': foto,
+    }
     return render(request, 'fecha.html', context)
 
 
