@@ -1,4 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2> Hola {{nombre}} {{apellido}}, su seguro ha sido contratado</h2>
+{% if login %}
+    <h2> Hola {{nombre}} {{apellido}}, su seguro ha sido contratado</h2>
+    {% if items %}
+        <ol>
+            <li>{{ items.0 }}</li>
+            <li>{{ items.1 }}</li>
+            <li>{{ items.2 }}</li>
+            <li>{{ items.3 }}</li>
+            <!-- {% for item in items %}
+                <li>{{ items }}</li>
+            {% endfor %} -->
+        </ol>
+    {% else %}
+        <h1>No hay elementos en la listas</h1>
+    {% endif %}
+{% else %}
+    <h2>Usuario no loggeado</h2>
+{% endif %}
 {% endblock content %}
