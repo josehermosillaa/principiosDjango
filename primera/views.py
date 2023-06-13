@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
-from .forms import NameForm
+from .forms import NameForm, InputForm
 import datetime
 
 # vista basada en clases
@@ -56,6 +56,7 @@ def prueba(request):
 def get_name(request):
     #si se trata de una solicitud post, necesitamos procesar los datos del formulario!
     if request.method == 'POST':
+        print(request.POST)
         #crea una instancia de formulario y se completa con los datos de la solicitud :
         form = NameForm(request.POST)
         #comprobar si los datos son valdios
@@ -72,3 +73,8 @@ def get_name(request):
 
 def gracias_view(request):
     return HttpResponse('<h1>Datos ingresados correctamente!</h1>')
+
+def datosform_view(request):
+    context = {}
+    context['form'] = InputForm()
+    return render(request, "datosform.html", context)
