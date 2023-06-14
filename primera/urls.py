@@ -9,7 +9,8 @@ from .views import (
     get_name,
     gracias_view,
     datosform_view,
-    authorform_view
+    authorform_view,
+    register_view
     )
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
     path('thanks/', gracias_view, name='gracias'),
     path('datosform/', datosform_view, name='datosform'),
     path('authorform/', authorform_view, name='authorform'),
+    path('register/', register_view, name='register'),
     ##esta ruta es para probar cosas
     path('prueba/', prueba, name='prueba'),
 ]

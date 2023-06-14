@@ -1,10 +1,13 @@
 from django.shortcuts import render
-
+from tokenize import PseudoExtras
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
-from .forms import NameForm, InputForm, AuthorForm
+from .forms import NameForm, InputForm, AuthorForm, UserRegisterForm
+from django.contrib import messages
+from django.contrib.auth import login
 import datetime
+
 
 # vista basada en clases
 
@@ -91,3 +94,18 @@ def authorform_view(request):
     
     context['form'] = form
     return render(request, "datosform.html", context)
+
+def register_view(request):
+    if request.method == "POST":
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "registrado satisfactoriamente")
+        else:
+            messages.error(request, "Registro invalido. Algunos datos ingresados no son correctos")
+        return HttpResponseRedirect('/menu/') 
+    
+    form = UserRegisterForm()
+    context = {"register_form": form}
+    return render(request,"registro.html", context)
