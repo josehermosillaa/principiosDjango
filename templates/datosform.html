@@ -1,4 +1,22 @@
 {% extends 'base.html' %}
+
+{% block formulario %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Enviar">
+</form>
+
+{% endblock formulario %}
+{% block footer %}    
+{% endblock footer %}
+
+
+
+
+
+<!-- {% comment %}
+esteo es renderizado tal cual viene del bakcend
 {% block formulario %}
     <form action="/datosform/" method="get">
         {% csrf_token %}
@@ -10,24 +28,6 @@
     </form>
 
 {% endblock formulario %}
-
-{% block footer %}    
-{% endblock footer %}
-
-
-
-
-
-{% comment %}
-esteo es renderizado tal cual viene del bakcend
-{% block formulario %}
-<form action="" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Enviar">
-</form>
-
-{% endblock formulario %}
-{% endcomment %}
+{% endcomment %} -->
     
     

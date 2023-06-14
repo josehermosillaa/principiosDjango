@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
-from .forms import NameForm, InputForm
+from .forms import NameForm, InputForm, AuthorForm
 import datetime
 
 # vista basada en clases
@@ -77,4 +77,17 @@ def gracias_view(request):
 def datosform_view(request):
     context = {}
     context['form'] = InputForm()
+    return render(request, "datosform.html", context)
+
+def authorform_view(request):
+    context = {}
+    #crear el objeto form
+    form = AuthorForm(request.POST or None, request.FILES or None)
+    #verificar si el formulario es valido
+    if form.is_valid():
+        #guardar datos del modelo
+        form.save()
+        return HttpResponseRedirect('/thanks/')
+    
+    context['form'] = form
     return render(request, "datosform.html", context)

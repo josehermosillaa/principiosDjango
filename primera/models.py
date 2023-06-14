@@ -7,7 +7,7 @@ TITLE_CHOICES = [
     ('MS','Ms.'),
 ]
 class Author(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=150)
     title = models.CharField(max_length=3, choices=TITLE_CHOICES)
     birth_date = models.DateField(blank=True, null=True)
 
