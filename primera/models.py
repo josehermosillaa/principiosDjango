@@ -11,6 +11,12 @@ class Author(models.Model):
     title = models.CharField(max_length=3, choices=TITLE_CHOICES)
     birth_date = models.DateField(blank=True, null=True)
 
+    class Meta:
+        permissions = (
+            ("es_miembro_1", "Es miembro con prioridad 1"),
+            )
+
+
     def __str__(self):
         return self.name
 class Book(models.Model):

@@ -7,6 +7,13 @@ from .forms import NameForm, InputForm, AuthorForm, UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+#importamos el modelo author para los permisos
+from .models import Author
+#gestionar permisos
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+# importamos el mixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import datetime
 
 
@@ -19,8 +26,11 @@ class Persona:
         self.login = login
 
 
-class IndexPageView(TemplateView):
+class IndexPageView(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
+    login_url = '/login/'
+    permission_required = 'primera.es_miembro_1'
     template_name = 'index.html'
+    
 
 # vista basada en funciones
 
@@ -100,7 +110,16 @@ def register_view(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
         if form.is_valid():
+            #obtenemos el contenttype del modelo
+            content_type = ContentType.objects.get_for_model(Author)
+            #obtenemos el permiso a asignar
+            es_miembro_1 = Permission.objects.get(
+                codename='es_miembro_1',
+                content_type=content_type
+            )
             user = form.save()
+            #Agregar el permiso al usuario en el momento del registro
+            user.user_permissions.add(es_miembro_1)
             login(request, user)
             messages.success(request, "registrado satisfactoriamente")
         else:
@@ -121,7 +140,7 @@ def login_view(request):
             if user is not None:
                 login(request,user)
                 messages.info(request, f"iniciaste sesion como: {username}.")
-                return HttpResponseRedirect('/menu')
+                return HttpResponseRedirect('/')
             else:
                 messages.error(request,"username o password Incorrectos")
                 return HttpResponseRedirect('/login')
