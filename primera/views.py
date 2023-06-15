@@ -7,6 +7,8 @@ from .forms import NameForm, InputForm, AuthorForm, UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+# importaremos decoradores
+from django.contrib.auth.decorators import login_required, permission_required 
 #importamos el modelo author para los permisos
 from .models import Author
 #gestionar permisos
@@ -50,18 +52,21 @@ def obtener_fecha(request, name, foto):
     }
     return render(request, 'fecha.html', context)
 
-
+@login_required(login_url='/login/')
 def menu_view(request):
     template_name = 'menu.html'
     return render(request, template_name)
 
+@login_required(login_url='/login/')
 def mostrar(request):
     persona = Persona("Juan", "Perez",True)
     items = ["Primero", "Segundo", "Tercero", "Cuarto"]
     context = {"nombre": persona.nombre, "apellido": persona.apellido,"login":persona.login, "items":items}
     
     return render(request, 'seguro.html', context)
-    
+
+
+@permission_required(perm='primera.es_miembro_1', raise_exception=True)
 def prueba(request):
     template_name = 'formulario.html'
     return render(request, template_name)
@@ -85,6 +90,7 @@ def get_name(request):
         context = {'form': form}
     return render(request, 'name.html', context)
 
+
 def gracias_view(request):
     return HttpResponse('<h1>Datos ingresados correctamente!</h1>')
 
@@ -93,6 +99,14 @@ def datosform_view(request):
     context['form'] = InputForm()
     return render(request, "datosform.html", context)
 
+@permission_required(perm='primera.es_miembro_1', raise_exception=True)
+def authors_view(request):
+    """permitira ver todos los autores, registrados en una tabla en author.view"""
+    #Me trae todos los autores registrados
+    authors = Author.objects.all() 
+    return render(request, 'authors.html', context={'authors':authors})
+
+#aqui queremos crear los autores
 def authorform_view(request):
     context = {}
     #crear el objeto form
