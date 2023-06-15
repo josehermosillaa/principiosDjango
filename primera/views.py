@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from .forms import NameForm, InputForm, AuthorForm, UserRegisterForm
 from django.contrib import messages
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 import datetime
 
@@ -131,3 +131,8 @@ def login_view(request):
     form = AuthenticationForm()
     context = {'login_form':form}
     return render(request, 'login.html', context)
+
+def logout_view(request):
+    logout(request)
+    messages.info(request, "Seha cerrado la sesion satisfactoriamente.")
+    return HttpResponseRedirect('/menu')
