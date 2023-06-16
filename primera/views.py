@@ -9,6 +9,8 @@ from django.contrib.auth import login,authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 # importaremos decoradores
 from django.contrib.auth.decorators import login_required, permission_required 
+#decorador que exige al usuario ser staff para ingresar a la vista
+from django.contrib.admin.views.decorators import staff_member_required
 #importamos el modelo author para los permisos
 from .models import Author
 #gestionar permisos
@@ -106,7 +108,9 @@ def authors_view(request):
     authors = Author.objects.all() 
     return render(request, 'authors.html', context={'authors':authors})
 
-#aqui queremos crear los autores
+
+#aqui queremos crear los autores, SOLO STAFF
+@staff_member_required(login_url='/authors/')
 def authorform_view(request):
     context = {}
     #crear el objeto form
@@ -120,6 +124,8 @@ def authorform_view(request):
     context['form'] = form
     return render(request, "datosform.html", context)
 
+
+#vistas para el registro, inicio de sesion y cierre de sesion  (no protegerlas)
 def register_view(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
