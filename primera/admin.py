@@ -14,6 +14,7 @@ class AuthorAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
     list_filter = ('created','name')
+
 class BookAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
 

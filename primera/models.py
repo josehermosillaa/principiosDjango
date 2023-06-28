@@ -7,11 +7,11 @@ TITLE_CHOICES = [
     ('MS','Ms.'),
 ]
 class Author(models.Model):
-    name = models.CharField(max_length=100)
-    title = models.CharField(max_length=3, choices=TITLE_CHOICES)
-    birth_date = models.DateField(blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100, verbose_name='Nombre Completo')
+    title = models.CharField(max_length=3, choices=TITLE_CHOICES, verbose_name='Titulo')
+    birth_date = models.DateField(blank=True, null=True, verbose_name='Fecha de Nacimiento')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creación')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de actuialización')
 
     class Meta:
         permissions = (
@@ -24,6 +24,7 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+#tarea hacer lo mismo para el modelo libro
 class Book(models.Model):
     name = models.CharField(max_length=100)
     authors = models.ManyToManyField(Author)
